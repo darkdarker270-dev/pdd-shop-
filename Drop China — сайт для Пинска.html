@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Drop China</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f2f4f7;
+  --white: #ffffff;
+  --red: #e02020;
+  --red-dark: #c01818;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --radius: 16px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12131a;
+    --white: #1e1f2e;
+    --text: #f0f0f5;
+    --muted: #9ca3af;
+    --border: #2d2f3e;
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-padding-top: var(--safe-top); }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+/* NAV */
+.nav {
+  background: var(--white);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--red);
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--text); }
+.rates {
+  text-align: right;
+  line-height: 1.4;
+}
+.rates .rate-main {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.rates .rate-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* HERO */
+.hero {
+  padding: 32px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .hero {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 32px;
+  }
+  .hero-left { flex: 1; }
+  .hero-right { flex: 0 0 340px; }
+}
+.hero-title {
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--text);
+}
+.hero-title span { color: var(--red); }
+.hero-sub {
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+.btn-order {
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 18px 24px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s;
+}
+.btn-order:active { background: var(--red-dark); }
+.badge-free {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.badge-free .dot { width: 20px; height: 20px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.badge-free .dot svg { width: 12px; height: 12px; fill: #fff; }
+
+/* CALCULATOR */
+.calc-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  box-shadow: var(--card-shadow);
+}
+.calc-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.calc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.calc-field label {
+  font-size: 12px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 5px;
+}
+.calc-field input, .calc-field select {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 12px;
+  font-size: 15px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.calc-field input:focus, .calc-field select:focus { border-color: var(--red); }
+.calc-field.full { grid-column: 1 / -1; }
+.calc-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.calc-total span { font-size: 15px; color: var(--muted); }
+.calc-total strong { font-size: 22px; font-weight: 800; color: var(--text); }
+
+/* PLATFORM CARDS */
+.section-platforms {
+  padding: 0 20px 32px;
+}
+@media (min-width: 768px) {
+  .section-platforms { max-width: 1100px; margin: 0 auto; padding: 0 32px 48px; }
+}
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.platform-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.platform-card:active { transform: scale(0.97); }
+.platform-logo { width: 72px; height: 72px; object-fit: contain; border-radius: 16px; }
+.platform-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+.platform-desc {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+.platform-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #fbbf24;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+.pdd-logo-wrap {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, #e02020, #ff6b6b);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.pdd-logo-wrap svg { width: 42px; height: 42px; }
+
+/* MODAL OVERLAY */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 200;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+.overlay.open { display: flex; }
+@media (min-width: 480px) {
+  .overlay { align-items: center; }
+}
+
+/* MODAL SHEET */
+.sheet {
+  background: var(--white);
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px calc(24px + var(--safe-bottom));
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  animation: slideUp 0.25s ease;
+}
+@media (min-width: 480px) {
+  .sheet { border-radius: 24px; padding: 28px 28px; max-width: 420px; }
+}
+@keyframes slideUp {
+  from { transform: translateY(60px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.sheet-handle {
+  width: 36px; height: 4px; background: var(--border);
+  border-radius: 2px; margin: 0 auto 20px;
+}
+@media (min-width: 480px) { .sheet-handle { display: none; } }
+.sheet-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.sheet-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 32px; height: 32px;
+  background: var(--bg);
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted);
+}
+.field-wrap {
+  margin-bottom: 14px;
+}
+.field-wrap label {
+  font-size: 12px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 5px;
+}
+.field-wrap input {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 14px;
+  font-size: 15px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  outline: none;
+}
+.field-wrap input:focus { border-color: var(--red); }
+.converted-price {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: var(--muted);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+.converted-price strong { color: var(--text); font-weight: 700; margin-left: 4px; }
+.btn-pay {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 17px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s;
+}
+.btn-pay:active { background: var(--red-dark); }
+
+/* PAYMENT SHEET */
+.card-number {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 16px 14px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.card-hint {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 20px;
+}
+.btn-confirm {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 17px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s;
+}
+.btn-confirm:active { background: var(--red-dark); }
+.after-pay-note {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+.after-pay-note strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="logo">Drop<span>China</span></div>
+  <div class="rates">
+    <div class="rate-main">1 ¥ = 0,6 BYN</div>
+    <div class="rate-sub">1 кг = 25 BYN</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-title">Доставка<br>из <span>Китая</span><br>в Пинск</h1>
+    <p class="hero-sub">Заказываем с Pinduoduo напрямую.<br>Быстро, дёшево, с фотоотчётом.</p>
+    <div class="hero-actions">
+      <button class="btn-order" onclick="openOrder()">Вставить ссылку на товар</button>
+      <div class="badge-free">
+        <div class="dot">
+          <svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        Бесплатный фотоотчёт со склада
+      </div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="hero-right">
+    <div class="calc-card">
+      <div class="calc-title">🧮 Калькулятор доставки</div>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Цена товара (¥)</label>
+          <input type="number" id="calcPrice" placeholder="100" oninput="calcTotal()">
+        </div>
+        <div class="calc-field">
+          <label>Вес (кг)</label>
+          <input type="number" id="calcWeight" placeholder="1" oninput="calcTotal()">
+        </div>
+        <div class="calc-field full">
+          <label>Город</label>
+          <select>
+            <option>Пинск</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-total">
+        <span>Общая цена:</span>
+        <strong id="calcResult">— BYN</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<section class="section-platforms">
+  <div class="section-label">Где заказываем</div>
+  <a href="https://www.pinduoduo.com" target="_blank" rel="noopener" class="platform-card">
+    <div class="pdd-logo-wrap">
+      <!-- PDD heart icon SVG -->
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 78C50 78 20 58 20 38C20 28 28 20 38 20C43 20 47.5 22.5 50 26.5C52.5 22.5 57 20 62 20C72 20 80 28 80 38C80 58 50 78 50 78Z" fill="white" opacity="0.9"/>
+        <path d="M50 68C50 68 28 52 28 38C28 32 32.5 27 38 27C42 27 45.5 29.5 47.5 33C49 29.5 52.5 27 57 27C62.5 27 67 32 67 38C67 52 50 68 50 68Z" fill="white" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="platform-name">Pin Duo Duo</div>
+    <div class="platform-desc">Лучшие цены из Китая.<br>Нажми — открою сайт!</div>
+    <div class="platform-badge">★ Топ</div>
+  </a>
+</section>
+
+<!-- ORDER MODAL -->
+<div class="overlay" id="overlayOrder" onclick="closeIfBackground(event,'overlayOrder')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="closeOverlay('overlayOrder')">✕</button>
+    <div class="sheet-title">Оформить заказ</div>
+
+    <div class="field-wrap">
+      <label>Ссылка на товар</label>
+      <input type="url" id="orderLink" placeholder="https://pinduoduo.com/...">
+    </div>
+    <div class="field-wrap">
+      <label>Цена товара (¥)</label>
+      <input type="number" id="orderPrice" placeholder="0" oninput="convertPrice()">
+    </div>
+    <div class="field-wrap">
+      <label>Цена в BYN (курс 1 ¥ = 0,6 BYN)</label>
+      <div class="converted-price" id="convertedDisplay">Введите цену в юанях выше</div>
+    </div>
+
+    <button class="btn-pay" onclick="openPayment()">Оплатить</button>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="overlay" id="overlayPayment" onclick="closeIfBackground(event,'overlayPayment')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="closeOverlay('overlayPayment')">✕</button>
+    <div class="sheet-title">Оплата</div>
+
+    <div class="card-number">9112 3801 7586 9264</div>
+    <div class="card-hint">Переведите сумму на карту выше</div>
+
+    <button class="btn-confirm" onclick="confirmPayment()">Подтвердить оплату</button>
+    <div class="after-pay-note">Скиньте <strong>скрин оплаты</strong> и <strong>ссылку на товар</strong> в Telegram</div>
+  </div>
+</div>
+
+<script>
+// CALCULATOR
+function calcTotal() {
+  const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+  const weight = parseFloat(document.getElementById('calcWeight').value) || 0;
+  const priceBYN = price * 0.6;
+  const deliveryBYN = weight * 25;
+  const total = priceBYN + deliveryBYN;
+  const el = document.getElementById('calcResult');
+  el.textContent = total > 0 ? total.toFixed(2) + ' BYN' : '— BYN';
+}
+
+// CONVERT PRICE IN ORDER MODAL
+function convertPrice() {
+  const yuan = parseFloat(document.getElementById('orderPrice').value) || 0;
+  const el = document.getElementById('convertedDisplay');
+  if (yuan > 0) {
+    el.innerHTML = (yuan * 0.6).toFixed(2) + ' <strong>BYN</strong>';
+  } else {
+    el.innerHTML = 'Введите цену в юанях выше';
+  }
+}
+
+// OPEN ORDER MODAL
+function openOrder() {
+  document.getElementById('overlayOrder').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// OPEN PAYMENT
+function openPayment() {
+  const link = document.getElementById('orderLink').value.trim();
+  const price = document.getElementById('orderPrice').value.trim();
+  if (!link || !price) {
+    alert('Пожалуйста, введите ссылку на товар и цену.');
+    return;
+  }
+  closeOverlay('overlayOrder');
+  setTimeout(() => {
+    document.getElementById('overlayPayment').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }, 150);
+}
+
+// CONFIRM → TELEGRAM
+function confirmPayment() {
+  window.open('https://t.me/EXXTM', '_blank');
+}
+
+function closeOverlay(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeIfBackground(e, id) {
+  if (e.target.id === id) closeOverlay(id);
+}
+</script>
+</body>
+</html>
